@@ -7,7 +7,8 @@ import {
   RUNBOOK_TRACKS,
   runbookBeatSequence,
   runbookBeats,
-} from "@/lib/runbooks/meta";
+} from "@/runbooks/meta";
+import { STATIC_RUNBOOKS_PATH, renderRunbooksHtml } from "@/runbooks/static-page";
 
 const root = process.cwd();
 const beats101 = runbookBeats("101");
@@ -348,6 +349,17 @@ describe("runbook catalog", () => {
     expect(beat("ledgerly-reviewer-check")?.promptType).toBe("adaptable");
   });
 
+  it("keeps the static runbooks page in sync with the beats", () => {
+    const committed = readFileSync(join(root, STATIC_RUNBOOKS_PATH), "utf8");
+    expect(committed, "run `npm run runbooks:export` to regenerate runbooks.html").toBe(
+      renderRunbooksHtml(),
+    );
+    for (const track of RUNBOOK_TRACKS) {
+      expect(committed).toContain(`data-track="${track.id}"`);
+    }
+    expect(committed).not.toMatch(/<(link|script)[^>]+(href|src)=/);
+  });
+
   it("does not resolve the retired advanced track", () => {
     expect(RUNBOOK_TRACKS).toHaveLength(2);
     for (const retired of ["advanced", "Advanced"]) {
@@ -365,7 +377,7 @@ describe("runbook catalog", () => {
     }
   });
 
-  it("points docs, skills, and rules at /runbooks and documents both tracks", () => {
+  it("points docs, skills, and rules at runbooks.html and documents both tracks", () => {
     const files = {
       readme: readFileSync(join(root, "README.md"), "utf8"),
       howto: readFileSync(join(root, "demo-howto.md"), "utf8"),
@@ -385,13 +397,26 @@ describe("runbook catalog", () => {
       );
     }
 
-    expect(files.readme).toContain("/runbooks/201");
-    expect(files.howto).toContain("/runbooks/201");
-    expect(files.skill).toContain("/runbooks/201");
-    expect(files.agents).toContain("lib/runbooks/meta.ts");
-    expect(files.rule).toContain("lib/runbooks/meta.ts");
-    expect(files.skill).toContain("lib/runbooks/meta.ts");
+    expect(files.readme).toContain("runbooks.html?track=201");
+    expect(files.howto).toContain("runbooks.html?track=201");
+    expect(files.skill).toContain("runbooks.html");
+    for (const [name, contents] of Object.entries(files)) {
+      expect(contents, `${name} still sends readers to an in-app /runbooks route`).not.toMatch(
+        /\/runbooks\//,
+      );
+    }
+    expect(files.agents).toContain("runbooks/meta.ts");
+    expect(files.rule).toContain("runbooks/meta.ts");
+    expect(files.skill).toContain("runbooks/meta.ts");
     expect(files.cloud).toContain("Cloud Agent");
+
+    const start = readFileSync(join(root, ".cursor/skills/start-ledgerly/SKILL.md"), "utf8");
+    expect(start).toContain("http://localhost:43173");
+    expect(start).toContain("runbooks.html");
+    expect(start).toContain("WriteCanvas");
+    expect(start).toContain("srcDoc");
+    expect(start).not.toContain("file://");
+    expect(start).not.toContain("http://localhost:43173/runbooks");
 
     // Shipped-suite count must stay consistent across the docs that cite it
     // (see the sync rule in .cursor/rules/ledgerly.mdc). Assert the
