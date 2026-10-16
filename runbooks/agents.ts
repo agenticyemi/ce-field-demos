@@ -2,7 +2,7 @@ export const PROJECT_AGENTS = [
   {
     name: "ledgerly-reviewer",
     path: ".cursor/agents/ledgerly-reviewer.md",
-    when: "After any code change. Read-only check that the work exists and runs, then catalog prices, seed names, protected paths, and high-risk changes.",
+    when: "After any code change. Read-only check that the work exists and runs, then catalog prices, seed names, and protected paths.",
   },
   {
     name: "api-instrumenter",
@@ -13,6 +13,11 @@ export const PROJECT_AGENTS = [
     name: "dispute-verifier",
     path: ".cursor/agents/dispute-verifier.md",
     when: "/goal and /orchestrate finish line. Report pass/fail evidence; write no product code.",
+  },
+  {
+    name: "change-reviewer",
+    path: ".cursor/agents/change-reviewer.md",
+    when: "Read-only review of a diff. Flags sensitive data, hard rollback, missing tests, edited failing tests, scope outside the plan, and new dependencies or shell commands.",
   },
 ] as const;
 
