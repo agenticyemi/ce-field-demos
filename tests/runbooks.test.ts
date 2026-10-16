@@ -618,6 +618,13 @@ describe("runbook catalog", () => {
       expect(committed).toContain(`data-track="${track.id}"`);
     }
     expect(committed).not.toMatch(/<(link|script)[^>]+(href|src)=/);
+    expect(committed).toContain(
+      'window.parent.postMessage({ type: "runbooks:track", track: id }, "*")',
+    );
+    expect(committed).toContain('data.type === "runbooks:set-track"');
+    expect(committed).toContain("ids.indexOf(data.track) !== -1");
+    expect(committed).toContain("show(data.track, false)");
+    expect(committed).toContain("Canvas srcdoc pages cannot update their about:srcdoc URL.");
   });
 
   it("does not resolve the retired advanced track", () => {
@@ -680,6 +687,16 @@ describe("runbook catalog", () => {
     expect(start).toContain("runbooks.html");
     expect(start).toContain("WriteCanvas");
     expect(start).toContain("srcDoc");
+    expect(start).toContain("useCanvasState");
+    expect(start).toContain("runbooks:set-track");
+    expect(start).toContain("canvas_id");
+    expect(start).toContain("event.source === iframe.contentWindow");
+    expect(start).toContain(
+      'iframe.contentWindow.postMessage({ type: "runbooks:set-track", track }, "*")',
+    );
+    expect(start).toContain("On the iframe `load` event only");
+    expect(start).toContain('a srcdoc frame reports `"null"`');
+    expect(start).not.toContain("whenever the persisted track changes");
     expect(start).not.toContain("file://");
     expect(start).not.toContain("http://localhost:43173/runbooks");
 
