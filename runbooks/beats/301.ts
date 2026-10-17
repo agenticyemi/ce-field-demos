@@ -23,7 +23,8 @@ export const RUNBOOK_SECTIONS_301 = [
         id: "create-accessibility-manual-reviewer",
         title: "Create accessibility-manual-reviewer",
         promptType: "adaptable",
-        detail: "",
+        detail:
+          "CI catches missing labels and low contrast, issues that affect screen reader use. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.",
         example:
           "/create-subagent accessibility-manual-reviewer to walk a page by keyboard in the Browser, since CI runs automated tests. Report tab order, focus, trap, Escape, and navigation failures with screenshots.",
       },
@@ -49,6 +50,13 @@ export const RUNBOOK_SECTIONS_301 = [
         detail: "",
         example:
           "/multitask Run the accessibility-manual-reviewer subagent on three pages: invoices, collections, and settings. Summarize the combined failures by page.",
+      },
+      {
+        id: "demonstrate-manual-process",
+        title: "Demonstrate the manual process for subagent.",
+        promptType: "none",
+        detail:
+          "Open Browser to http://localhost:/invoices\nPress Tab on the invoice page. Note that you lost where the focus was on the page.",
       },
       {
         id: "review-subagents",

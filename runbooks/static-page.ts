@@ -128,7 +128,7 @@ export function renderRunbooksHtml(): string {
       border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-elevated);
     }
     h4 { margin: 0; font-size: 0.875rem; }
-    .detail { margin: -0.375rem 0 0; color: var(--ink-soft); font-size: 0.75rem; }
+    .detail { margin: -0.375rem 0 0; color: var(--ink-soft); font-size: 0.75rem; white-space: pre-line; }
     .paste { margin-top: auto; }
     .paste-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.75rem; font-weight: 500; }
     .copy {
