@@ -363,204 +363,267 @@ describe("runbook catalog", () => {
 
     expect(RUNBOOK_SECTIONS_301.map((section) => section.title)).toEqual([
       "How do you break down tasks for agents?",
-      "How do multiple agents go from plan to PR?",
+      "How do multiple agents go from plan to reviewable code?",
       "How do you scale AI code reviews?",
-      "How do coworkers share ownership safely?",
+      "How do coworkers share ownership safely?"
     ]);
     expect(RUNBOOK_SECTIONS_301.map((section) => section.id)).toEqual([
       "break-down-tasks",
       "plan-to-pr",
       "scale-reviews",
-      "share-ownership",
+      "share-ownership"
     ]);
-    expect(RUNBOOK_SECTIONS_301.map((section) => section.beats.length)).toEqual([6, 13, 6, 4]);
-
-    expect(beats301.map((beat) => beat.id)).toEqual([
-      "open-local-agent",
-      "create-accessibility-auditor",
-      "set-subagent-model",
-      "optional-cloud-agent",
-      "multitask-audit",
-      "review-subagents",
-      "optional-start-project",
-      "optional-stage-project",
-      "open-plan-agent",
-      "list-collections-issues",
-      "plan-collections-center",
-      "review-plan",
-      "build-plan",
-      "optional-build-cloud",
-      "side-chat",
-      "ask-new-apis",
-      "consolidate-pr",
-      "optional-project-notes",
-      "linear-issue-fallback",
-      "checkout-feature-branch",
-      "open-hooks-json",
-      "run-reviewer-subagent",
-      "check-high-severity",
-      "optional-bugbot",
-      "review-highest-risk",
-      "open-ownership-agent",
-      "shift-left-findings",
-      "optional-reviewer-automation",
-      "list-conflict-files",
-    ]);
+    expect(RUNBOOK_SECTIONS_301.map((section) => section.beats.length)).toEqual([8, 12, 8, 6]);
     expect(RUNBOOK_SECTIONS_301.flatMap((section) => section.beats.map((entry) => entry.id))).toEqual(
       beats301.map((entry) => entry.id),
     );
     expect(runbookBeatSequence("301")).toBe(
-      "Open a new agent → Create accessibility-auditor → Use a cost-efficient model → Optional: Move to a Cloud Agent → Multitask the audit → Review the subagents → Optional: Start a new Project → Optional: Stage the Project → Open a new agent → List open collections issues → Plan the collections command center → Review the plan → Build the plan → Optional: Build with Cloud Agents → Open a side chat → Ask what APIs the subagent adds → Consolidate and open a PR → Optional: Show project notes → Fallback: reference repo issues → Open the feature branch → Open hooks.json → Run the change reviewer subagent → Check high severity issues → Optional: Run Bugbot → Review the highest-risk slice → Open a new agent → Shift review findings left → Optional: Create a Reviewer automation → List files that might conflict",
+      "Plan the command center in a separate agent → Start the keyboard walkthrough agent → Show the problem by hand. → Create accessibility-manual-reviewer → Optional: Move to a Cloud Agent → Multitask three page walkthroughs → Review the subagents → Check the subagent output → Optional: Start a new Project → Optional: Stage the Project → Open a new agent → Plan fixes for the walkthrough failures → Review the plan → Build the plan → Optional: Build with Cloud Agents → Open a side chat → Ask what the first subagent is remediating → Consolidate and open a reviewable PR → Optional: Show project notes → Fallback: reference repo issues → Check out the keyboard fixes branch → Run the change reviewer subagent → Identify changes for closer inspection → Confirm the fixes by keyboard → Show the pre-staged contrast hook → Prove the hook fires on a token edit → Optional: Run Bugbot → Review the high-risk changes → Open a new agent → Identify the most reliable fix → Optional: Create a Reviewer automation → Return to the command center plan → Check other PRs for file conflicts → Check other PR review findings",
     );
 
-    const beat = (id: (typeof beats301)[number]["id"]) => beats301.find((entry) => entry.id === id);
+    // Do and Prompt text is copied verbatim from the 301 Outline Show sections.
+    expect(beats301.map(({ id, title, promptType, detail, example, optional }) => ({ id, title, promptType, detail, example, optional }))).toEqual([
+      {
+        "id": "plan-command-center",
+        "title": "Plan the command center in a separate agent",
+        "promptType": "adaptable",
+        "detail": "Start a new agent for the command center plan.",
+        "example": "/plan the collections command center from its Linear issues. List the tasks, the files each touches, and the open questions."
+      },
+      {
+        "id": "open-local-agent",
+        "title": "Start the keyboard walkthrough agent",
+        "promptType": "none",
+        "detail": "Start a new agent for the keyboard walkthrough."
+      },
+      {
+        "id": "show-problem-by-hand",
+        "title": "Show the problem by hand.",
+        "promptType": "adaptable",
+        "detail": "Go to http://localhost:43173/invoices in Browser.\nPress Tab while on the invoice page. Note that you lost where the focus was on the page.\nEach subagent is conducting a review similar to this manual one. It presses the keys and verifies the focus complies with accessibility standards.",
+        "example": "Start the application."
+      },
+      {
+        "id": "create-accessibility-manual-reviewer",
+        "title": "Create accessibility-manual-reviewer",
+        "promptType": "adaptable",
+        "detail": "CI catches missing labels, which break screen readers, and low contrast, which makes text hard to read. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.",
+        "example": "/create-subagent accessibility-manual-reviewer to walk a page by keyboard in the Browser, since CI runs automated tests. Report tab order, focus, trap, Escape, and navigation failures with screenshots."
+      },
+      {
+        "id": "optional-cloud-agent",
+        "title": "Optional: Move to a Cloud Agent",
+        "promptType": "none",
+        "detail": "Click Continue on Cloud to move this to a Cloud Agent. Click Include Changes.",
+        "optional": true
+      },
+      {
+        "id": "multitask-walkthroughs",
+        "title": "Multitask three page walkthroughs",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "/multitask Run the accessibility-manual-reviewer subagent on three pages: invoices, collections, and settings. Summarize the combined failures by page."
+      },
+      {
+        "id": "review-subagents",
+        "title": "Review the subagents",
+        "promptType": "none",
+        "detail": "Watch the Working tab."
+      },
+      {
+        "id": "summarize-subagents",
+        "title": "Check the subagent output",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "Give me a one-sentence summary for each subagent."
+      },
+      {
+        "id": "optional-start-project",
+        "title": "Optional: Start a new Project",
+        "promptType": "none",
+        "detail": "Start a new Project. Name it {INSERT COMPANY HERE, default is Ledgerly}.",
+        "optional": true
+      },
+      {
+        "id": "optional-stage-project",
+        "title": "Optional: Stage the Project",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "To avoid conflicts, run each agent in its own worktree and parallelize where possible.",
+        "optional": true
+      },
+      {
+        "id": "open-plan-agent",
+        "title": "Open a new agent",
+        "promptType": "none",
+        "detail": "Open a new local agent. Optional: Run the following prompts from the Project."
+      },
+      {
+        "id": "plan-remediation",
+        "title": "Plan fixes for the walkthrough failures",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "/plan fixes for the keyboard failures the walkthroughs found on invoices, collections, and settings. Use one task per failure and mark which tasks can run in parallel."
+      },
+      {
+        "id": "review-plan",
+        "title": "Review the plan",
+        "promptType": "none",
+        "detail": "Review the plan."
+      },
+      {
+        "id": "build-plan",
+        "title": "Build the plan",
+        "promptType": "none",
+        "detail": "Build locally."
+      },
+      {
+        "id": "optional-build-cloud",
+        "title": "Optional: Build with Cloud Agents",
+        "promptType": "none",
+        "detail": "Build the plan with Cloud Agents.",
+        "optional": true
+      },
+      {
+        "id": "side-chat",
+        "title": "Open a side chat",
+        "promptType": "reusable",
+        "detail": "",
+        "example": "/side"
+      },
+      {
+        "id": "ask-subagent-progress",
+        "title": "Ask what the first subagent is remediating",
+        "promptType": "reusable",
+        "detail": "Ask what a subagent is doing in a side chat without blocking the coordinator.",
+        "example": "/ask What is the first subagent remediating? Answer with the finding and the files it changes."
+      },
+      {
+        "id": "consolidate-pr",
+        "title": "Consolidate and open a reviewable PR",
+        "promptType": "reusable",
+        "detail": "Open the PR. Show the summary a coworker would read first.",
+        "example": "Consolidate the completed tasks into one branch so reviewers get one PR. Open it with what each task changed, the plan link, and what a human should verify."
+      },
+      {
+        "id": "optional-project-notes",
+        "title": "Optional: Show project notes",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "Show me the project notes and context.",
+        "optional": true
+      },
+      {
+        "id": "linear-issue-fallback",
+        "title": "Fallback: reference repo issues",
+        "promptType": "adaptable",
+        "detail": "If an agent cannot access the Linear MCP server, use the issue descriptions in the repository.",
+        "example": "Reference issues from @linear-field-demo.ts instead of Linear"
+      },
+      {
+        "id": "checkout-fixes-branch",
+        "title": "Check out the keyboard fixes branch",
+        "promptType": "adaptable",
+        "detail": "Open a new local agent.",
+        "example": "Check out the branch for the keyboard fixes PR."
+      },
+      {
+        "id": "run-reviewer-subagent",
+        "title": "Run the change reviewer subagent",
+        "promptType": "reusable",
+        "detail": "",
+        "example": "Use the change reviewer subagent to review the remediation PR. List each issue with its file, line, and severity."
+      },
+      {
+        "id": "check-closer-inspection",
+        "title": "Identify changes for closer inspection",
+        "promptType": "none",
+        "detail": "Check the change reviewer’s output for any issues requiring closer inspection."
+      },
+      {
+        "id": "confirm-keyboard-fixes",
+        "title": "Confirm the fixes by keyboard",
+        "promptType": "reusable",
+        "detail": "",
+        "example": "Use the accessibility-manual-reviewer subagent on this branch to confirm each fix. Report any remaining failure with the page, the key pressed, the expected focus, and a screenshot."
+      },
+      {
+        "id": "open-contrast-hook",
+        "title": "Show the pre-staged contrast hook",
+        "promptType": "none",
+        "detail": "Open .cursor/hooks.json and .cursor/hooks/contrast-collect.sh. Point out the filter for {{ shared color token files }} and the contrast test from {{ test library path }}."
+      },
+      {
+        "id": "token-edit-fires-hook",
+        "title": "Prove the hook fires on a token edit",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "The brand is moving lighter. Change the muted text color token to #B0B0B0 in the shared theme tokens."
+      },
+      {
+        "id": "optional-bugbot",
+        "title": "Optional: Run Bugbot",
+        "promptType": "reusable",
+        "detail": "",
+        "example": "/review-bugbot this remediation PR",
+        "optional": true
+      },
+      {
+        "id": "review-highest-risk",
+        "title": "Review the high-risk changes",
+        "promptType": "reusable",
+        "detail": "Open the highest-risk slice first and read it line by line.",
+        "example": "/ask which change in this PR has the highest risk. List the files and lines I need to review."
+      },
+      {
+        "id": "open-ownership-agent",
+        "title": "Open a new agent",
+        "promptType": "none",
+        "detail": "Open a new local agent."
+      },
+      {
+        "id": "shift-left-findings",
+        "title": "Identify the most reliable fix",
+        "promptType": "reusable",
+        "detail": "",
+        "example": "Draft a fix for each repeat finding in this PR’s review comments and change reviewer findings. Pick the most reliable fix, preferring deterministic ones: rule, skill, subagent, hook, test, or human check."
+      },
+      {
+        "id": "optional-reviewer-automation",
+        "title": "Optional: Create a Reviewer automation",
+        "promptType": "adaptable",
+        "detail": "Go to the Automations tab. Click New Automation. Name it Reviewer. Select the demo repository. Click Triggers > PR opened, then select the demo repository and set the author to Anyone. Add “Run change reviewer subagent” to agent instructions. Add “Comment on Pull Request” to tools. Click Save. Open the PR and review the check for Automation: Reviewer.",
+        "example": "Use the accessibility-manual-reviewer subagent to walk the invoices, collections, and settings pages by keyboard and open a PR with the failures and recommended fixes.",
+        "optional": true
+      },
+      {
+        "id": "return-to-plan",
+        "title": "Return to the command center plan",
+        "promptType": "none",
+        "detail": "Open the command center planning agent from Show - 11 in the Agent Window. Don’t start a new plan."
+      },
+      {
+        "id": "list-conflict-files",
+        "title": "Check other PRs for file conflicts",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "List the open PRs in this repository and the files in each that might conflict with the collections command center plan."
+      },
+      {
+        "id": "summarize-review-findings",
+        "title": "Check other PR review findings",
+        "promptType": "adaptable",
+        "detail": "",
+        "example": "Before I start building, summarize PR comments and review findings that I should use to build the collections command center."
+      }
+    ]);
 
-    expect(beat("open-local-agent")?.promptType).toBe("none");
-    expect(beat("open-local-agent")?.detail).toBe("Open a new local agent.");
-    expect(beat("open-local-agent")?.example).toBeUndefined();
-    expect(beat("create-accessibility-auditor")?.promptType).toBe("adaptable");
-    expect(beat("create-accessibility-auditor")?.detail).toBe("");
-    expect(beat("create-accessibility-auditor")?.example).toBe(
-      "/create-subagent named accessibility-auditor whose job is to audit accessibility of the UI based on WCAG. Provide a list of recommendations.",
-    );
-    expect(beat("set-subagent-model")?.title).toBe("Use a cost-efficient model");
-    expect(beat("set-subagent-model")?.promptType).toBe("none");
-    expect(beat("set-subagent-model")?.detail).toBe(
-      "Open the new subagent file in .cursor/agents and point out the model field. Change the model to a faster, cost-efficient model.",
-    );
-    expect(beat("set-subagent-model")?.example).toBeUndefined();
-    expect(beat("optional-cloud-agent")?.promptType).toBe("none");
-    expect(beat("optional-cloud-agent")?.detail).toBe(
-      "Click Continue on Cloud to move this to a Cloud Agent. Click Include Changes.",
-    );
-    expect(beat("optional-cloud-agent")?.example).toBeUndefined();
-    expect(beat("multitask-audit")?.promptType).toBe("reusable");
-    expect(beat("multitask-audit")?.detail).toBe("");
-    expect(beat("multitask-audit")?.example).toBe(
-      "/multitask Use the accessibility-auditor subagent to audit the invoices page. Explain how suggested credit is calculated. Compare test coverage for disputes versus invoices.",
-    );
-    expect(beat("review-subagents")?.promptType).toBe("none");
-    expect(beat("review-subagents")?.detail).toBe("Watch the Working tab.");
-    expect(beat("review-subagents")?.example).toBeUndefined();
-
-    expect(beat("optional-start-project")?.promptType).toBe("none");
-    expect(beat("optional-start-project")?.detail).toBe(
-      "Start a new Project. Name it {INSERT COMPANY HERE, default is Ledgerly}.",
-    );
-    expect(beat("optional-stage-project")?.promptType).toBe("adaptable");
-    expect(beat("optional-stage-project")?.detail).toBe("");
-    expect(beat("optional-stage-project")?.example).toBe(
-      "Run all agents in their own worktrees. Parallelize if possible.",
-    );
-    expect(beat("open-plan-agent")?.promptType).toBe("none");
-    expect(beat("open-plan-agent")?.detail).toBe(
-      "Open a new local agent. Optional: Run the following prompts from the Project.",
-    );
-    expect(beat("list-collections-issues")?.promptType).toBe("adaptable");
-    expect(beat("list-collections-issues")?.detail).toBe("Review the list of open issues.");
-    expect(beat("list-collections-issues")?.example).toBe(
-      "List the open issues for building the collections command center.",
-    );
-    expect(beat("plan-collections-center")?.promptType).toBe("adaptable");
-    expect(beat("plan-collections-center")?.detail).toBe("");
-    expect(beat("plan-collections-center")?.example).toBe(
-      "/plan Build the collections command center based on the open issues.",
-    );
-    expect(beat("review-plan")?.promptType).toBe("none");
-    expect(beat("review-plan")?.detail).toBe("Review the plan.");
-    expect(beat("build-plan")?.promptType).toBe("none");
-    expect(beat("build-plan")?.detail).toBe("Build the plan.");
-    expect(beat("optional-build-cloud")?.promptType).toBe("none");
-    expect(beat("optional-build-cloud")?.detail).toBe("Build the plan with Cloud Agents.");
-    expect(beat("side-chat")?.promptType).toBe("reusable");
-    expect(beat("side-chat")?.detail).toBe("");
-    expect(beat("side-chat")?.example).toBe("/side");
-    expect(beat("ask-new-apis")?.promptType).toBe("reusable");
-    expect(beat("ask-new-apis")?.detail).toBe(
-      "Use a side chat to read through implementation or ask questions without disrupting the coordinator.",
-    );
-    expect(beat("ask-new-apis")?.example).toBe("/ask what new APIs will this first subagent add?");
-    expect(beat("consolidate-pr")?.promptType).toBe("reusable");
-    expect(beat("consolidate-pr")?.detail).toBe(
-      "Move finished worktrees back deliberately. Resolve conflicts on purpose. Open the PR. Show the summary a colleague would read first.",
-    );
-    expect(beat("consolidate-pr")?.example).toBe(
-      "Consolidate the completed tasks into one branch. Open a PR that summarizes what each lane changed, links the plan or ticket, and lists what a human should verify before merge.",
-    );
-    expect(beat("optional-project-notes")?.promptType).toBe("adaptable");
-    expect(beat("optional-project-notes")?.detail).toBe("");
-    expect(beat("optional-project-notes")?.example).toBe("Show me the project notes and context.");
-    expect(beat("linear-issue-fallback")?.promptType).toBe("adaptable");
-    expect(beat("linear-issue-fallback")?.detail).toBe(
-      "If an agent cannot access Linear MCP server, use the issue descriptions in the repository.",
-    );
-    expect(beat("linear-issue-fallback")?.example).toBe(
-      "Reference issues from @linear-field-demo.ts instead of Linear",
-    );
-
-    expect(beat("checkout-feature-branch")?.promptType).toBe("adaptable");
-    expect(beat("checkout-feature-branch")?.detail).toBe("Open a new local agent.");
-    expect(beat("checkout-feature-branch")?.example).toBe(
-      "Change the branch to the collections command center feature.",
-    );
-    expect(beat("open-hooks-json")?.promptType).toBe("none");
-    expect(beat("open-hooks-json")?.detail).toBe("Open .cursor/hooks.json in the demo repo.");
-    expect(beat("run-reviewer-subagent")?.title).toBe("Run the change reviewer subagent");
-    expect(beat("run-reviewer-subagent")?.promptType).toBe("reusable");
-    expect(beat("run-reviewer-subagent")?.detail).toBe("");
-    expect(beat("run-reviewer-subagent")?.example).toBe("Use the change reviewer to review the feature.");
-    expect(beat("check-high-severity")?.promptType).toBe("none");
-    expect(beat("check-high-severity")?.detail).toBe(
-      "Check the change reviewer’s output for any high severity issues to assess.",
-    );
-    expect(beat("optional-bugbot")?.promptType).toBe("reusable");
-    expect(beat("optional-bugbot")?.detail).toBe("");
-    expect(beat("optional-bugbot")?.example).toBe("/review-bugbot");
-    expect(beat("review-highest-risk")?.promptType).toBe("reusable");
-    expect(beat("review-highest-risk")?.detail).toBe(
-      "Open the highest-risk slice first and read it line by line.",
-    );
-    expect(beat("review-highest-risk")?.example).toBe(
-      "/ask What is the highest-risk slice of work? Show me the lines I need to review.",
-    );
-
-    expect(beat("open-ownership-agent")?.promptType).toBe("none");
-    expect(beat("open-ownership-agent")?.detail).toBe("Open a new local agent.");
-    expect(beat("shift-left-findings")?.promptType).toBe("reusable");
-    expect(beat("shift-left-findings")?.detail).toBe("");
-    expect(beat("shift-left-findings")?.example).toBe(
-      "Read the review comments and change reviewer subagent findings on this PR. List the ones that apply to future work in this repo. For each one, say whether it belongs in a rule, skill, hook, test, subagent, or a person, and draft it.",
-    );
-    expect(beat("optional-reviewer-automation")?.promptType).toBe("adaptable");
-    expect(beat("optional-reviewer-automation")?.detail).toBe(
-      "Go to the Automations tab. Create a New Automation. Name it Reviewer. Select the demo repository. Click Triggers > PR opened, then select the demo repository and set the author to Anyone. Add “Run change reviewer subagent” to agent instructions. Add “Comment on Pull Request” to tools. Click Save. Open the PR and review the check for Automation: Reviewer.",
-    );
-    expect(beat("optional-reviewer-automation")?.example).toBe("Fix dispute cap issue and open a PR.");
-    expect(beat("list-conflict-files")?.promptType).toBe("reusable");
-    expect(beat("list-conflict-files")?.detail).toBe(
-      "Start a new local agent as the second contributor.",
-    );
-    expect(beat("list-conflict-files")?.example).toBe(
-      "Check the PRs in this repository and make a list of files that might conflict with implementing the dispute resolution feature.",
-    );
-
-    expect(beats301).toHaveLength(29);
+    expect(beats301).toHaveLength(34);
     expect(beats301.every((entry) => entry.promptType !== undefined)).toBe(true);
     expect(
       beats301.filter((entry) => entry.promptType === "none").every((entry) => entry.example === undefined),
     ).toBe(true);
-    expect(beat("open-local-agent")?.promptType).toBe("none");
-    expect(beat("create-accessibility-auditor")?.promptType).toBe("adaptable");
-    expect(beat("set-subagent-model")?.promptType).toBe("none");
-    expect(beat("multitask-audit")?.promptType).toBe("reusable");
-    expect(beat("optional-stage-project")?.promptType).toBe("adaptable");
-    expect(beat("side-chat")?.promptType).toBe("reusable");
-    expect(beat("linear-issue-fallback")?.promptType).toBe("adaptable");
-    expect(beat("run-reviewer-subagent")?.promptType).toBe("reusable");
-    expect(beat("check-high-severity")?.promptType).toBe("none");
-    expect(beat("shift-left-findings")?.promptType).toBe("reusable");
-    expect(beat("optional-reviewer-automation")?.promptType).toBe("adaptable");
-    expect(beat("list-conflict-files")?.promptType).toBe("reusable");
+    expect(beats301.filter((entry) => entry.example?.startsWith("/")).every((entry) => /^\/[a-z-]+/.test(entry.example ?? ""))).toBe(true);
   });
 
   it("hides 301 optional cards until Include optional cards is checked", () => {
