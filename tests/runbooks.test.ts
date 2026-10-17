@@ -373,12 +373,12 @@ describe("runbook catalog", () => {
       "scale-reviews",
       "share-ownership"
     ]);
-    expect(RUNBOOK_SECTIONS_301.map((section) => section.beats.length)).toEqual([9, 12, 8, 6]);
+    expect(RUNBOOK_SECTIONS_301.map((section) => section.beats.length)).toEqual([8, 12, 8, 6]);
     expect(RUNBOOK_SECTIONS_301.flatMap((section) => section.beats.map((entry) => entry.id))).toEqual(
       beats301.map((entry) => entry.id),
     );
     expect(runbookBeatSequence("301")).toBe(
-      "Plan the command center in a separate agent → Start the keyboard walkthrough agent → Create accessibility-manual-reviewer → Use a cost-efficient model → Optional: Move to a Cloud Agent → Multitask three page walkthroughs → Demonstrate the manual process for subagent. → Review the subagents → Check the subagent output → Optional: Start a new Project → Optional: Stage the Project → Open a new agent → Plan fixes for the walkthrough failures → Review the plan → Build the plan → Optional: Build with Cloud Agents → Open a side chat → Ask what the first subagent is remediating → Consolidate and open a reviewable PR → Optional: Show project notes → Fallback: reference repo issues → Check out the keyboard fixes branch → Run the change reviewer subagent → Identify changes for closer inspection → Confirm the fixes by keyboard → Show the pre-staged contrast hook → Prove the hook fires on a token edit → Optional: Run Bugbot → Review the high-risk changes → Open a new agent → Identify the most reliable fix → Optional: Create a Reviewer automation → Return to the command center plan → Check other PRs for file conflicts → Check other PR review findings",
+      "Plan the command center in a separate agent → Start the keyboard walkthrough agent → Show the problem by hand. → Create accessibility-manual-reviewer → Optional: Move to a Cloud Agent → Multitask three page walkthroughs → Review the subagents → Check the subagent output → Optional: Start a new Project → Optional: Stage the Project → Open a new agent → Plan fixes for the walkthrough failures → Review the plan → Build the plan → Optional: Build with Cloud Agents → Open a side chat → Ask what the first subagent is remediating → Consolidate and open a reviewable PR → Optional: Show project notes → Fallback: reference repo issues → Check out the keyboard fixes branch → Run the change reviewer subagent → Identify changes for closer inspection → Confirm the fixes by keyboard → Show the pre-staged contrast hook → Prove the hook fires on a token edit → Optional: Run Bugbot → Review the high-risk changes → Open a new agent → Identify the most reliable fix → Optional: Create a Reviewer automation → Return to the command center plan → Check other PRs for file conflicts → Check other PR review findings",
     );
 
     // Do and Prompt text is copied verbatim from the 301 Outline Show sections.
@@ -397,18 +397,18 @@ describe("runbook catalog", () => {
         "detail": "Start a new agent for the keyboard walkthrough."
       },
       {
+        "id": "show-problem-by-hand",
+        "title": "Show the problem by hand.",
+        "promptType": "adaptable",
+        "detail": "Go to http://localhost:43173/invoices in Browser.\nPress Tab while on the invoice page. Note that you lost where the focus was on the page.\nEach subagent is conducting a review similar to this manual one. It presses the keys and verifies the focus complies with accessibility standards.",
+        "example": "Start the application."
+      },
+      {
         "id": "create-accessibility-manual-reviewer",
         "title": "Create accessibility-manual-reviewer",
         "promptType": "adaptable",
-        "detail": "CI catches missing labels and low contrast, issues that affect screen reader use. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.",
+        "detail": "CI catches missing labels, which break screen readers, and low contrast, which makes text hard to read. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.",
         "example": "/create-subagent accessibility-manual-reviewer to walk a page by keyboard in the Browser, since CI runs automated tests. Report tab order, focus, trap, Escape, and navigation failures with screenshots."
-      },
-      {
-        "id": "set-subagent-model",
-        "title": "Use a cost-efficient model",
-        "promptType": "adaptable",
-        "detail": "Open the new subagent file in .cursor/agents and point out the model field.",
-        "example": "Parallel subagents multiply usage. Change the model for accessibility-manual-reviewer to a faster, cost-efficient model."
       },
       {
         "id": "optional-cloud-agent",
@@ -423,12 +423,6 @@ describe("runbook catalog", () => {
         "promptType": "adaptable",
         "detail": "",
         "example": "/multitask Run the accessibility-manual-reviewer subagent on three pages: invoices, collections, and settings. Summarize the combined failures by page."
-      },
-      {
-        "id": "demonstrate-manual-process",
-        "title": "Demonstrate the manual process for subagent.",
-        "promptType": "none",
-        "detail": "Open Browser to http://localhost:/invoices\nPress Tab on the invoice page. Note that you lost where the focus was on the page."
       },
       {
         "id": "review-subagents",
@@ -624,7 +618,7 @@ describe("runbook catalog", () => {
       }
     ]);
 
-    expect(beats301).toHaveLength(35);
+    expect(beats301).toHaveLength(34);
     expect(beats301.every((entry) => entry.promptType !== undefined)).toBe(true);
     expect(
       beats301.filter((entry) => entry.promptType === "none").every((entry) => entry.example === undefined),

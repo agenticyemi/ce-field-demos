@@ -508,26 +508,28 @@
           <h4>Start the keyboard walkthrough agent</h4>
           <p class="detail">Start a new agent for the keyboard walkthrough.</p>
         </article>
+        <article class="beat" data-beat="show-problem-by-hand">
+          <h4>Show the problem by hand.</h4>
+          <p class="detail">Go to http://localhost:43173/invoices in Browser.
+Press Tab while on the invoice page. Note that you lost where the focus was on the page.
+Each subagent is conducting a review similar to this manual one. It presses the keys and verifies the focus complies with accessibility standards.</p>
+          <div class="paste">
+            <div class="paste-head">
+              <span>Paste in Grok Build</span>
+              <button type="button" class="copy">Copy</button>
+            </div>
+            <pre>Start the application.</pre>
+          </div>
+        </article>
         <article class="beat" data-beat="create-accessibility-manual-reviewer">
           <h4>Create accessibility-manual-reviewer</h4>
-          <p class="detail">CI catches missing labels and low contrast, issues that affect screen reader use. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.</p>
+          <p class="detail">CI catches missing labels, which break screen readers, and low contrast, which makes text hard to read. A keyboard walkthrough takes judgment, so this subagent uses the page the way a keyboard user would. Reuse it any time you change the UI.</p>
           <div class="paste">
             <div class="paste-head">
               <span>Paste in Grok Build</span>
               <button type="button" class="copy">Copy</button>
             </div>
             <pre>/create-subagent accessibility-manual-reviewer to walk a page by keyboard in the Browser, since CI runs automated tests. Report tab order, focus, trap, Escape, and navigation failures with screenshots.</pre>
-          </div>
-        </article>
-        <article class="beat" data-beat="set-subagent-model">
-          <h4>Use a cost-efficient model</h4>
-          <p class="detail">Open the new subagent file in .cursor/agents and point out the model field.</p>
-          <div class="paste">
-            <div class="paste-head">
-              <span>Paste in Grok Build</span>
-              <button type="button" class="copy">Copy</button>
-            </div>
-            <pre>Parallel subagents multiply usage. Change the model for accessibility-manual-reviewer to a faster, cost-efficient model.</pre>
           </div>
         </article>
         <article class="beat optional" data-beat="optional-cloud-agent">
@@ -543,11 +545,6 @@
             </div>
             <pre>/multitask Run the accessibility-manual-reviewer subagent on three pages: invoices, collections, and settings. Summarize the combined failures by page.</pre>
           </div>
-        </article>
-        <article class="beat" data-beat="demonstrate-manual-process">
-          <h4>Demonstrate the manual process for subagent.</h4>
-          <p class="detail">Open Browser to http://localhost:/invoices
-Press Tab on the invoice page. Note that you lost where the focus was on the page.</p>
         </article>
         <article class="beat" data-beat="review-subagents">
           <h4>Review the subagents</h4>
