@@ -6,41 +6,49 @@ export const RUNBOOK_SECTIONS_301 = [
     title: "How do you break down tasks for agents?",
     beats: [
       {
-        id: "open-local-agent",
-        title: "Open a new agent",
-        promptType: "none",
-        detail: "Open a new local agent.",
+        id: "plan-command-center",
+        title: "Plan the command center in a separate agent",
+        promptType: "adaptable",
+        detail: "Start a new agent for the command center plan.",
+        example:
+          "/plan the collections command center from its Linear issues. List the tasks, the files each touches, and the open questions.",
       },
       {
-        id: "create-accessibility-auditor",
-        title: "Create accessibility-auditor",
+        id: "open-local-agent",
+        title: "Start the keyboard walkthrough agent",
+        promptType: "none",
+        detail: "Start a new agent for the keyboard walkthrough.",
+      },
+      {
+        id: "create-accessibility-manual-reviewer",
+        title: "Create accessibility-manual-reviewer",
         promptType: "adaptable",
         detail: "",
         example:
-          "/create-subagent named accessibility-auditor whose job is to audit accessibility of the UI based on WCAG. Provide a list of recommendations.",
+          "/create-subagent accessibility-manual-reviewer to walk a page by keyboard in the Browser, since CI runs automated tests. Report tab order, focus, trap, Escape, and navigation failures with screenshots.",
       },
       {
         id: "set-subagent-model",
         title: "Use a cost-efficient model",
-        promptType: "none",
-        detail:
-          "Open the new subagent file in .cursor/agents and point out the model field. Change the model to a faster, cost-efficient model.",
+        promptType: "adaptable",
+        detail: "Open the new subagent file in .cursor/agents and point out the model field.",
+        example:
+          "Parallel subagents multiply usage. Change the model for accessibility-manual-reviewer to a faster, cost-efficient model.",
       },
       {
         id: "optional-cloud-agent",
         title: "Optional: Move to a Cloud Agent",
         optional: true,
         promptType: "none",
-        detail:
-          "Click Continue on Cloud to move this to a Cloud Agent. Click Include Changes.",
+        detail: "Click Continue on Cloud to move this to a Cloud Agent. Click Include Changes.",
       },
       {
-        id: "multitask-audit",
-        title: "Multitask the audit",
-        promptType: "reusable",
+        id: "multitask-walkthroughs",
+        title: "Multitask three page walkthroughs",
+        promptType: "adaptable",
         detail: "",
         example:
-          "/multitask Use the accessibility-auditor subagent to audit the invoices page. Explain how suggested credit is calculated. Compare test coverage for disputes versus invoices.",
+          "/multitask Run the accessibility-manual-reviewer subagent on three pages: invoices, collections, and settings. Summarize the combined failures by page.",
       },
       {
         id: "review-subagents",
@@ -48,11 +56,18 @@ export const RUNBOOK_SECTIONS_301 = [
         promptType: "none",
         detail: "Watch the Working tab.",
       },
+      {
+        id: "summarize-subagents",
+        title: "Check the subagent output",
+        promptType: "adaptable",
+        detail: "",
+        example: "Give me a one-sentence summary for each subagent.",
+      },
     ],
   },
   {
     id: "plan-to-pr",
-    title: "How do multiple agents go from plan to PR?",
+    title: "How do multiple agents go from plan to reviewable code?",
     beats: [
       {
         id: "optional-start-project",
@@ -67,7 +82,7 @@ export const RUNBOOK_SECTIONS_301 = [
         optional: true,
         promptType: "adaptable",
         detail: "",
-        example: "Run all agents in their own worktrees. Parallelize if possible.",
+        example: "To avoid conflicts, run each agent in its own worktree and parallelize where possible.",
       },
       {
         id: "open-plan-agent",
@@ -76,18 +91,12 @@ export const RUNBOOK_SECTIONS_301 = [
         detail: "Open a new local agent. Optional: Run the following prompts from the Project.",
       },
       {
-        id: "list-collections-issues",
-        title: "List open collections issues",
-        promptType: "adaptable",
-        detail: "Review the list of open issues.",
-        example: "List the open issues for building the collections command center.",
-      },
-      {
-        id: "plan-collections-center",
-        title: "Plan the collections command center",
+        id: "plan-remediation",
+        title: "Plan fixes for the walkthrough failures",
         promptType: "adaptable",
         detail: "",
-        example: "/plan Build the collections command center based on the open issues.",
+        example:
+          "/plan fixes for the keyboard failures the walkthroughs found on invoices, collections, and settings. Use one task per failure and mark which tasks can run in parallel.",
       },
       {
         id: "review-plan",
@@ -99,7 +108,7 @@ export const RUNBOOK_SECTIONS_301 = [
         id: "build-plan",
         title: "Build the plan",
         promptType: "none",
-        detail: "Build the plan.",
+        detail: "Build locally.",
       },
       {
         id: "optional-build-cloud",
@@ -116,21 +125,19 @@ export const RUNBOOK_SECTIONS_301 = [
         example: "/side",
       },
       {
-        id: "ask-new-apis",
-        title: "Ask what APIs the subagent adds",
+        id: "ask-subagent-progress",
+        title: "Ask what the first subagent is remediating",
         promptType: "reusable",
-        detail:
-          "Use a side chat to read through implementation or ask questions without disrupting the coordinator.",
-        example: "/ask what new APIs will this first subagent add?",
+        detail: "Ask what a subagent is doing in a side chat without blocking the coordinator.",
+        example: "/ask What is the first subagent remediating? Answer with the finding and the files it changes.",
       },
       {
         id: "consolidate-pr",
-        title: "Consolidate and open a PR",
+        title: "Consolidate and open a reviewable PR",
         promptType: "reusable",
-        detail:
-          "Move finished worktrees back deliberately. Resolve conflicts on purpose. Open the PR. Show the summary a colleague would read first.",
+        detail: "Open the PR. Show the summary a coworker would read first.",
         example:
-          "Consolidate the completed tasks into one branch. Open a PR that summarizes what each lane changed, links the plan or ticket, and lists what a human should verify before merge.",
+          "Consolidate the completed tasks into one branch so reviewers get one PR. Open it with what each task changed, the plan link, and what a human should verify.",
       },
       {
         id: "optional-project-notes",
@@ -144,8 +151,7 @@ export const RUNBOOK_SECTIONS_301 = [
         id: "linear-issue-fallback",
         title: "Fallback: reference repo issues",
         promptType: "adaptable",
-        detail:
-          "If an agent cannot access Linear MCP server, use the issue descriptions in the repository.",
+        detail: "If an agent cannot access the Linear MCP server, use the issue descriptions in the repository.",
         example: "Reference issues from @linear-field-demo.ts instead of Linear",
       },
     ],
@@ -155,30 +161,47 @@ export const RUNBOOK_SECTIONS_301 = [
     title: "How do you scale AI code reviews?",
     beats: [
       {
-        id: "checkout-feature-branch",
-        title: "Open the feature branch",
+        id: "checkout-fixes-branch",
+        title: "Check out the keyboard fixes branch",
         promptType: "adaptable",
         detail: "Open a new local agent.",
-        example: "Change the branch to the collections command center feature.",
-      },
-      {
-        id: "open-hooks-json",
-        title: "Open hooks.json",
-        promptType: "none",
-        detail: "Open .cursor/hooks.json in the demo repo.",
+        example: "Check out the branch for the keyboard fixes PR.",
       },
       {
         id: "run-reviewer-subagent",
         title: "Run the change reviewer subagent",
         promptType: "reusable",
         detail: "",
-        example: "Use the change reviewer to review the feature.",
+        example:
+          "Use the change reviewer subagent to review the remediation PR. List each issue with its file, line, and severity.",
       },
       {
-        id: "check-high-severity",
-        title: "Check high severity issues",
+        id: "check-closer-inspection",
+        title: "Identify changes for closer inspection",
         promptType: "none",
-        detail: "Check the change reviewer’s output for any high severity issues to assess.",
+        detail: "Check the change reviewer’s output for any issues requiring closer inspection.",
+      },
+      {
+        id: "confirm-keyboard-fixes",
+        title: "Confirm the fixes by keyboard",
+        promptType: "reusable",
+        detail: "",
+        example:
+          "Use the accessibility-manual-reviewer subagent on this branch to confirm each fix. Report any remaining failure with the page, the key pressed, the expected focus, and a screenshot.",
+      },
+      {
+        id: "open-contrast-hook",
+        title: "Show the pre-staged contrast hook",
+        promptType: "none",
+        detail:
+          "Open .cursor/hooks.json and .cursor/hooks/contrast-collect.sh. Point out the filter for {{ shared color token files }} and the contrast test from {{ test library path }}.",
+      },
+      {
+        id: "token-edit-fires-hook",
+        title: "Prove the hook fires on a token edit",
+        promptType: "adaptable",
+        detail: "",
+        example: "The brand is moving lighter. Change the muted text color token to #B0B0B0 in the shared theme tokens.",
       },
       {
         id: "optional-bugbot",
@@ -186,14 +209,14 @@ export const RUNBOOK_SECTIONS_301 = [
         optional: true,
         promptType: "reusable",
         detail: "",
-        example: "/review-bugbot",
+        example: "/review-bugbot this remediation PR",
       },
       {
         id: "review-highest-risk",
-        title: "Review the highest-risk slice",
+        title: "Review the high-risk changes",
         promptType: "reusable",
         detail: "Open the highest-risk slice first and read it line by line.",
-        example: "/ask What is the highest-risk slice of work? Show me the lines I need to review.",
+        example: "/ask which change in this PR has the highest risk. List the files and lines I need to review.",
       },
     ],
   },
@@ -209,11 +232,11 @@ export const RUNBOOK_SECTIONS_301 = [
       },
       {
         id: "shift-left-findings",
-        title: "Shift review findings left",
+        title: "Identify the most reliable fix",
         promptType: "reusable",
         detail: "",
         example:
-          "Read the review comments and change reviewer subagent findings on this PR. List the ones that apply to future work in this repo. For each one, say whether it belongs in a rule, skill, hook, test, subagent, or a person, and draft it.",
+          "Draft a fix for each repeat finding in this PR’s review comments and change reviewer findings. Pick the most reliable fix, preferring deterministic ones: rule, skill, subagent, hook, test, or human check.",
       },
       {
         id: "optional-reviewer-automation",
@@ -221,16 +244,31 @@ export const RUNBOOK_SECTIONS_301 = [
         optional: true,
         promptType: "adaptable",
         detail:
-          "Go to the Automations tab. Create a New Automation. Name it Reviewer. Select the demo repository. Click Triggers > PR opened, then select the demo repository and set the author to Anyone. Add “Run change reviewer subagent” to agent instructions. Add “Comment on Pull Request” to tools. Click Save. Open the PR and review the check for Automation: Reviewer.",
-        example: "Fix dispute cap issue and open a PR.",
+          "Go to the Automations tab. Click New Automation. Name it Reviewer. Select the demo repository. Click Triggers > PR opened, then select the demo repository and set the author to Anyone. Add “Run change reviewer subagent” to agent instructions. Add “Comment on Pull Request” to tools. Click Save. Open the PR and review the check for Automation: Reviewer.",
+        example:
+          "Use the accessibility-manual-reviewer subagent to walk the invoices, collections, and settings pages by keyboard and open a PR with the failures and recommended fixes.",
+      },
+      {
+        id: "return-to-plan",
+        title: "Return to the command center plan",
+        promptType: "none",
+        detail: "Open the command center planning agent from Show - 11 in the Agent Window. Don’t start a new plan.",
       },
       {
         id: "list-conflict-files",
-        title: "List files that might conflict",
-        promptType: "reusable",
-        detail: "Start a new local agent as the second contributor.",
+        title: "Check other PRs for file conflicts",
+        promptType: "adaptable",
+        detail: "",
         example:
-          "Check the PRs in this repository and make a list of files that might conflict with implementing the dispute resolution feature.",
+          "List the open PRs in this repository and the files in each that might conflict with the collections command center plan.",
+      },
+      {
+        id: "summarize-review-findings",
+        title: "Check other PR review findings",
+        promptType: "adaptable",
+        detail: "",
+        example:
+          "Before I start building, summarize PR comments and review findings that I should use to build the collections command center.",
       },
     ],
   },
