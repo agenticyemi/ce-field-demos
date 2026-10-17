@@ -1,12 +1,17 @@
 {
   "version": 1,
   "hooks": {
-    "beforeSubmitPrompt": [
+    "afterFileEdit": [
       {
-        "command": ".cursor/hooks/synthetic-prompt.mjs",
-        "matcher": "UserPromptSubmit",
-        "timeout": 10,
-        "failClosed": true
+        "command": ".cursor/hooks/contrast-collect.sh",
+        "timeout": 2
+      }
+    ],
+    "stop": [
+      {
+        "command": ".cursor/hooks/contrast-check.mjs",
+        "loop_limit": 1,
+        "timeout": 3
       }
     ]
   }
