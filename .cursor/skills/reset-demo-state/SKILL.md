@@ -11,7 +11,7 @@ Run the script first. It is the source of truth for local cleanup.
 npm run demo:reset
 ```
 
-The command restores tracked files with `git reset --hard HEAD`, switches to `main`, removes recorded demo rules, skills, Canvas files, and demo branches, removes the known project path `.cursor/agents/accessibility-auditor.md`, reseeds SQLite, restarts port 43173, and confirms **1 failed / 31 passed**. It leaves the suggested-credit client on v1 and filter pills writing `state=`. It never runs `git clean`, removes an unrecorded personal skill, or deletes the private Linear team.
+The command restores tracked files with `git reset --hard HEAD`, switches to `main`, removes recorded demo rules, skills, Canvas files, and demo branches, removes the known project path `.cursor/agents/accessibility-auditor.md`, reseeds SQLite, restarts port 43173, and confirms **0 failed / 32 passed**. It leaves the suggested-credit client on v2 and filter pills writing `state=`. It never runs `git clean`, removes an unrecorded personal skill, or deletes the private Linear team.
 
 ## Session events
 
@@ -43,6 +43,6 @@ If the event file is missing or a beat predates this script, use the old discove
 
 ## Never
 
-- Never edit `tests/suggested-credit-api.test.ts`, either suggested-credit API route, or the seed to make the shipped red test green.
+- Never edit `tests/suggested-credit-api.test.ts`, either suggested-credit API route, or the seed.
 - Never delete a path outside the script's allowlist.
 - Never cancel Linear issues on a public or shared team, or delete the private team.
