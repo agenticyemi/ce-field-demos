@@ -14,7 +14,7 @@ Enable **Accept credit** and **Decline** on the dispute detail Resolution panel 
 
 Catalog only: Starter $49, Growth $99, Scale $249 (`lib/plans.ts`). Dispute `dsp_1043` may claim $400 against a $249 Scale invoice — valid input; stored credit on accept must be **$249**, not $400.
 
-`npm test` stays **1 failed / 31 passed** (`tests/suggested-credit-api.test.ts` only). Do not add a red suite to the default run. Do not touch suggested-credit client/tests, seed, or catalog prices.
+`npm test` stays **0 failed / 32 passed**. Do not add a red suite to the default run. Do not touch suggested-credit client/tests, seed, or catalog prices.
 
 ## Run order
 
@@ -73,7 +73,7 @@ Suggested credit on the page may still be v1 **$400**. Do not “fix” that in 
 | Agent 1 done | `resolveDispute` no longer throws `not implemented`. Accept cap / decline / missing id as in the contract. |
 | Agent 2 done | Bad `action` → 400. `grep`: no `prisma.` in the route. Valid body still calls `resolveDispute`. 501 until helper is applied. |
 | Agent 3 done | Buttons enabled. POST body is `{ action, reviewerNote }`. 501 until helper is applied is OK. |
-| After apply | Browser on `dsp_1043`. `npm test` still **1 failed / 31 passed**. Same turn: `ledgerly-reviewer` and **`dispute-verifier`**. |
+| After apply | Browser on `dsp_1043`. `npm test` still **0 failed / 32 passed**. Same turn: `ledgerly-reviewer` and **`dispute-verifier`**. |
 
 ---
 
@@ -104,6 +104,6 @@ Suggested credit on the page may still be v1 **$400**. Do not “fix” that in 
 | | |
 |---|---|
 | **Owns** | `app/disputes/[id]/page.tsx` + a small client child if the page stays a server component (e.g. `components/disputes/resolution-panel.tsx`) |
-| **Does not own** | helper, route internals, `SuggestedCredit` / v1 client, tests |
+| **Does not own** | helper, route internals, `SuggestedCredit` client, tests |
 | **Contract** | Enable Accept / Decline. Bind the reviewer note. `POST` `{ action, reviewerNote }` to `/api/disputes/{id}/resolve`. Refresh so status badge and note show after save. Do not call `resolveDispute` from the client. Do not invent a credit in the UI. |
-| **Verify** | Buttons are enabled. Note is in the POST body. After helper+API apply: on `/disputes/dsp_1043`, Accept or Decline with a note, reload — status and note persist. Suggested-credit display may still be v1 **$400**; do not “fix” that here. |
+| **Verify** | Buttons are enabled. Note is in the POST body. After helper+API apply: on `/disputes/dsp_1043`, Accept or Decline with a note, reload — status and note persist. Suggested-credit display stays v2 **$249**; do not change that client here. |
