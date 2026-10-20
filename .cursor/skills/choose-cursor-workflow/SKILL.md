@@ -17,7 +17,7 @@ The demo ships three jumpable tracks: **101**, **201**, and **301**. Every beat 
 
 The beats live in `runbooks/meta.ts` and in `runbooks.html`, which `start-ledgerly` renders in a Cursor Canvas. Open `runbooks.html?track=301` for the 301 track. Optional cards stay hidden until Include optional cards is checked. Use the matching `example` verbatim. Do not invent another catalog price.
 
-The named demo error is `dsp_1043` / the suggested-credit v1 client. Do not mention the invoice or dispute filter-pill `state=` seam unless the user is on that click path.
+The named demo error is `dsp_1043` / the suggested-credit v1 client. Invoice and dispute status pills filter on `status`.
 
 Start a demo session with `npm run demo:session -- start`. Record every rule, skill, Canvas, Figma deck, Linear board, and demo branch it creates. Reset is script-first and clears every track at once; update the event record and reset script whenever a beat gains a new leftover.
 

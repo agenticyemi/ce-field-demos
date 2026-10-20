@@ -19,7 +19,7 @@ You implement one Ledgerly Jira issue from the plan another agent already wrote.
 
 3. Work on a branch named cursor/<ISSUE-KEY>-<short-slug>.
 
-4. Run npm test. A clean tree is 1 failed / 31 passed, and tests/suggested-credit-api.test.ts is the expected failure unless this issue is the suggested-credit migration. Never edit a test or prisma/seed.ts to make the suite pass.
+4. Run npm test. A clean tree is 1 failed / 32 passed, and tests/suggested-credit-api.test.ts is the expected failure unless this issue is the suggested-credit migration. Never edit a test or prisma/seed.ts to make the suite pass.
 
 5. Open a pull request:
    - Title: <ISSUE-KEY>: <issue summary>
