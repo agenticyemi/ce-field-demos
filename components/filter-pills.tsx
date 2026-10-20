@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { filterPillHref } from "@/lib/filter-pills";
 import { cn } from "@/lib/utils";
 
 export function FilterPills({
@@ -15,10 +16,7 @@ export function FilterPills({
   return (
     <div className="flex flex-wrap gap-1.5">
       {items.map((item) => {
-        const params = new URLSearchParams();
-        if (item.id !== "ALL") params.set("state", item.id);
-        if (extra?.q) params.set("q", extra.q);
-        const href = params.toString() ? `${pathname}?${params}` : pathname;
+        const href = filterPillHref(pathname, item.id, extra);
         const active = value === item.id;
         return (
           <Link
