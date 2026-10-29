@@ -24,10 +24,10 @@ const FILTERS = [
 export default async function DisputesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ state?: string; status?: string }>;
 }) {
   const params = await searchParams;
-  const status = params.status ?? "ALL";
+  const status = params.state ?? params.status ?? "ALL";
   const disputes = await getDisputes({ status });
 
   return (
