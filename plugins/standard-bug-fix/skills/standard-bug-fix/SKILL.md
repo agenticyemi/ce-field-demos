@@ -70,4 +70,4 @@ Do not skip the three Linear comments. Do not paste secrets, production PII, or 
 
 ## 4. Finish
 
-Run the tests that cover the files you changed. Leave the planted suggested-credit red test red unless this issue is the dsp_1043 client migration and the user asked to migrate.
+Run the tests that cover the files you changed. Do not edit `tests/suggested-credit-api.test.ts`. The client stays on v2 unless this issue is the dsp_1043 client migration and the user asked to change it.
